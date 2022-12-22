@@ -46,7 +46,7 @@ jobs:
       - name: Unit Test
         run: go test -timeout 30m -race ./leveldb
 
-  golangci:
+  golang_lint:
     name: lint
     runs-on: ubuntu-latest
     steps:
@@ -59,10 +59,9 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Format Code
-        run: gofmt -w .
-      
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
-        with:
-          version: latest
-          args: --verbose
+        run: gofmt
+        
+      - name: golang-lint
+        run: |
+            go get -u golang.org/x/lint/golint
+            golint ./...
