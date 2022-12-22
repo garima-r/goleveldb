@@ -1,4 +1,4 @@
-name: leveldb-stag-pipeline
+name: leveldb-master-pipeline
 on:
   push:
     branches:
