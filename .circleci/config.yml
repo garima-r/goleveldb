@@ -25,19 +25,21 @@ jobs:
     steps:
       - checkout
       - restore_cache:
+          name: Restore Cache
           keys:
             - go-mod-v4-{{ checksum "go.sum" }}
       - run:
           name: Install Dependencies
           command: go mod download
       - save_cache:
+          name: Save Cache
           key: go-mod-v4-{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
       - run:
           name: Execute build
           command: go build -v ./...
-
+  
   test:
     working_directory: ~/repo
     docker:
