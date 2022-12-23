@@ -61,7 +61,7 @@ jobs:
             - "/go/pkg/mod"
       - run: 
           name: Create Test_Results Storage
-          command: mkdir ~/test_results
+          command: mkdir ~/test-results
       - run:
           name: Run Unit Tests
           command: |
@@ -69,10 +69,10 @@ jobs:
             go test -v $TEST
       - run:
           name: Copy Test File
-          command: cp junit.xml ~/test_results/
+          command: cp junit.xml ~/test-results
           when: always
       - store_test_results:
-          path: ~/test_results
+          path: ~/test-results
 
 workflows:
   build_and_test:
