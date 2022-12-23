@@ -65,7 +65,7 @@ jobs:
       - run:
           name: Run Unit Tests
           command: |
-            TEST = $(go list ./... | circleci tests split --split-by=timings)
+            TEST=$(go list ./... | circleci tests split --split-by=timings)
             go test -v $TEST
       - run:
           name: Copy Test File
