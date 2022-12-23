@@ -59,9 +59,15 @@ jobs:
           key: go-mod-v4-{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
+      - run: mkdir ~/test_results
       - run:
           name: Run Unit Tests
           command: go test -v $(go list ./... | circleci tests split --split-by=timings)
+      - run:
+          command: cp junit.xml ~/test_results/
+          when: always
+      - store_test_results:
+          path: ~/test_results
 
 workflows:
   build_and_test:
