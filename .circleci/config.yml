@@ -66,12 +66,14 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - lint
-      - build:
+      - lint:
           filters: &filters-staging
             branches:
               only:
                 - staging
+      - build:
+          filters:
+            <<: *filters-staging
       - test:
           requires:
             - build
