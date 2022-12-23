@@ -61,7 +61,7 @@ jobs:
             - "/go/pkg/mod"
       - run: 
           name: Create Test-Result Storage
-          command: mkdir ~/test-result
+          command: mkdir -p ~/test-result
       - run:
           name: Run Unit Tests
           command: |
