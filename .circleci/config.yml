@@ -60,19 +60,19 @@ jobs:
           paths:
             - "/go/pkg/mod"
       - run: 
-          name: Create Test_Results Storage
-          command: mkdir ~/junit
+          name: Create Test-Result Storage
+          command: mkdir ~/test-result
       - run:
           name: Run Unit Tests
           command: |
             TEST=$(go list ./... | circleci tests split --split-by=timings)
-            go test -v $TEST
+            gotestsum -v --junitfile unit-tests.xml $TEST
       - run:
           name: Copy Test File
-          command: cp junit.xml ~/junit/
+          command: cp unit-tests.xml ~/test-results/
           when: always
       - store_test_results:
-          path: ~/junit
+          path: ~/test-results
 
 workflows:
   build_and_test:
