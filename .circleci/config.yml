@@ -44,6 +44,7 @@ jobs:
     working_directory: ~/repo
     docker:
       - image: circleci/golang:1.15
+    parallelism: 4
     steps:
       - checkout
       - restore_cache:
@@ -60,7 +61,7 @@ jobs:
             - "/go/pkg/mod"
       - run:
           name: Run Unit Tests
-          command: go test -timeout 30m -race -run "TestDB_(Concurrent|GoleveldbIssue74)" ./leveldb
+          command: go test -race -v $(go list ./... | circleci tests split --split-by=timings)
 
 workflows:
   build_and_test:
