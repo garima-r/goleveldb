@@ -5,6 +5,26 @@ on:
       - master
 
 jobs:
+  golang_lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install GO
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.15
+
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        
+      - name: Format Code
+        run: gofmt
+        
+      - name: golang-lint
+        run: |
+            go get -u golang.org/x/lint/golint
+            golint ./...
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -45,23 +65,3 @@ jobs:
 
       - name: Unit Test
         run: go test -timeout 30m -race -run "TestDB_(Concurrent|GoleveldbIssue74)" ./leveldb
-
-  golang_lint:
-    name: lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install GO
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.15
-
-      - name: Checkout Code
-        uses: actions/checkout@v3
-        
-      - name: Format Code
-        run: gofmt
-        
-      - name: golang-lint
-        run: |
-            go get -u golang.org/x/lint/golint
-            golint ./...
