@@ -3,7 +3,7 @@ jobs:
   lint:
     working_directory: ~/repo
     docker:
-      - image: circleci/golang:1.15
+      - image: circleci/golang:latest
     steps:
       - checkout
       - run:
@@ -21,7 +21,7 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: circleci/golang:1.15
+      - image: circleci/golang:latest
     steps:
       - checkout
       - restore_cache:
@@ -36,14 +36,19 @@ jobs:
           key: go-mod-v4-{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
+      - run: 
+          name: Create Built-Binary Storage
+          command: mkdir -p ~/artifacts
       - run:
           name: Execute build
-          command: go build -v ./...
+          command: go build -o ~/artifacts/ -v ./...
+      - store_artifacts:
+          path: ~/artifacts
   
   test:
     working_directory: ~/repo
     docker:
-      - image: circleci/golang:1.15
+      - image: circleci/golang:latest
     parallelism: 4
     steps:
       - checkout
